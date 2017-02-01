@@ -9,8 +9,6 @@ include('includes/session.inc');
 $title = _('Regular Time Entry for Hourly Employees');
 include('includes/header.inc');
 include('includes/SQL_CommonFunctions.inc');
-
-
 ?>
         <div class="content">
             <div class="container-fluid">
@@ -36,15 +34,19 @@ if (!isset($_SESSION['RTDetail'])){
 }
 if (!isset($_POST['RTDate'])){
 	$_SESSION['RTDetail']->RTDate=date($_SESSION['DefaultDateFormat']);
+	
 }
+
 
 if (isset($_POST['RTDate'])){
 	$_SESSION['RTDetail']->RTDate=$_POST['RTDate'];
+	
 	$AllowThisPosting =true; //by default
 	if (!Is_Date($_POST['RTDate'])){
 		prnMsg(_('The date entered was not valid please enter the overtime date'). $_SESSION['DefaultDateFormat'],'warn');
 		$_POST['CommitBatch']='Do not do it the date is wrong';
 		$AllowThisPosting =false; //do not allow posting
+		
 	}
 }
 $msg='';
@@ -69,7 +71,7 @@ if ($_POST['CommitBatch']==_('Submit Timesheet for Approval')){
 				VALUES (
 					'$RTRef',
 					'$RTDesc',
-					'" . FormatDateForSQL($_SESSION['RTDetail']->RTDate) . "',
+					'" . FormatDateForSQL($RTItem->RTDate). "',
 					'" . $_POST['PayrollPeriodID'] . "', 
 					'" . $RTItem->EmployeeID . "',
 					'" . $RTItem->RTHours . "'
@@ -106,7 +108,7 @@ if ($_POST['CommitBatch']==_('Submit Timesheet for Approval')){
 			WHERE employeeid = '" . $_POST['EmployeeID'] . "'";
 			$result = DB_query($sql, $db);
 			$myrow = DB_fetch_array($result);	
-		$_SESSION['RTDetail']->Add_RTEntry($_POST['RTHours'], $_POST['EmployeeID'], $myrow['lastname'], $myrow['firstname'], $_POST['RTDesc']);
+		$_SESSION['RTDetail']->Add_RTEntry($_POST['RTHours'], $_POST['EmployeeID'], $myrow['lastname'], $myrow['firstname'], $_SESSION['RTDetail']->RTDate);
 	   /*Make sure the same receipt is not double processed by a page refresh */
    $Cancel = 1;
 	}	
@@ -202,8 +204,8 @@ echo "<TABLE WIDTH=97%   BORDER=1><TR>
 foreach ($_SESSION['RTDetail']->RTEntries as $RTItem) 
 {
 	echo "<TR><TD ALIGN=RIGHT>" . number_format($RTItem->RTHours,2) . "</TD>
-		<TD>" . $RTItem->EmployeeID . ' - ' . $RTItem->LastName . ',' . $RTItem->FirstName . "</TD>
-		<TD>" . $RTItem->RTDate. "</TD>
+		<TD>" .$RTItem->EmployeeID . ' - ' . $RTItem->LastName . ',' . $RTItem->FirstName . "</TD>
+		<TD>" .$RTItem->RTDate. "</TD>
 		<TD><a href='" . $_SERVER['PHP_SELF'] . '?' . SID . '&Delete=' . $RTItem->ID . "'>"._('Delete').'</a></TD>
 	</TR>';
 }

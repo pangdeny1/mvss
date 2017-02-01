@@ -254,6 +254,16 @@ Function GetPayrollTransRow($PayrollID,$EmpID ,&$db){
             return $myrow['basicpay'];
 }
 
+Function OpenPeriod(&$db){
+
+		$sql = 'SELECT payrollid, payrolldesc FROM prlpayrollperiod where payclosed=0';
+			
+			$result = DB_query($sql, $db);
+			$myrow = DB_fetch_array($result);
+			
+            return $myrow['payrollid'];
+}
+
 
 
 

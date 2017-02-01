@@ -56,7 +56,7 @@ if (!isset($Counter)) {
 						subamount,
 						quantity,
 						othincamount
-		FROM prloinvoicefile
+		FROM prloinvoicefile where employeeid='".$_SESSION['UsersRealName'] ."'
 		ORDER BY counterindex";
 	$ErrMsg = _('The ot could not be retrieved because');
 	$result = DB_query($sql,$db,$ErrMsg);

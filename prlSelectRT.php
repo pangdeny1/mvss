@@ -70,7 +70,7 @@ or deletion of the records*/
 						employeeid,
 						reghrs,
 						payrollid
-		FROM prldailytrans
+		FROM prldailytrans where employeeid='".$_SESSION['UsersRealName'] ."'
 		ORDER BY rtdate desc";
 	$ErrMsg = _('The ot could not be retrieved because');
 	$result = DB_query($sql,$db,$ErrMsg);

@@ -6,6 +6,10 @@ include('includes/prlInvoiceClass.php');
 
 $PageSecurity = 1;
 include('includes/session.inc');
+include('includes/prlFunctions.php');
+$openperiod=OpenPeriod(&$db);
+$mindate=GetPayrollRow($openperiod, &$db,3);
+$maxdate=GetPayrollRow($openperiod, &$db,4);
 ?>
 <script>
 function mult() {
@@ -22,7 +26,7 @@ function mult() {
 $title = _('Other Income Data Entry');
 include('includes/header.inc');
 include('includes/SQL_CommonFunctions.inc');
-include('includes/prlFunctions.php');
+
 
 if ($_GET['NewOI']=='Yes' AND isset($_SESSION['OIDetail'])){
 	unset($_SESSION['OIDetail']->OIEntries);
@@ -41,7 +45,7 @@ if (isset($_POST['OIDate'])){
 	$_SESSION['OIDetail']->OIDate=$_POST['OIDate'];
 	$AllowThisPosting =true; //by default
 	if ((!Is_Date($_POST['OIDate'])) || empty ($_POST['Amount'])  || empty ($_POST['SubAmount'])){
-		prnMsg(_('Kindly fill all the fileds and date should be in the following format '). $_SESSION['DefaultDateFormat'],'warn');
+		prnMsg(_('Kindly fill all the fileds '),'warn');
 		$_POST['CommitBatch']='Do not do it the date is wrong';
 		$AllowThisPosting =false; //do not allow posting
 	}
@@ -128,7 +132,7 @@ if (!Is_Date($_SESSION['JournalDetail']->JnlDate)){
 }
 
 echo '<TR><TD>'._('Date').":</TD>
-	<TD><INPUT TYPE='text' name='OIDate' class='tcal' maxlength=10 size=11 value='" . $_SESSION['OIDetail']->OIDate . "'></TD></TR>";
+	<TD><INPUT TYPE='text'  class='tcal' name='OIDate'  maxlength=10 size=11 value='" . $_SESSION['OIDetail']->OIDate . "'></TD></TR>";
 
 echo '</SELECT></TD></TR>';
 

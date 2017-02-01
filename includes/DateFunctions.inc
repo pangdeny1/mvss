@@ -13,8 +13,9 @@ this can be a string either 'd/m/Y' for UK/Australia/New Zealand dates or
 */
 
 function Is_Date($DateEntry) {
-
-	$DateEntry =Trim($DateEntry);
+    
+$DateEntry=date("m/d/Y", strtotime($DateEntry));
+$DateEntry =Trim($DateEntry);
 
 	if (strpos($DateEntry,'/')) {
 		$Date_Array = explode('/',$DateEntry);
@@ -50,6 +51,9 @@ function Is_Date($DateEntry) {
 			} else {
 				Return 0;
 			}
+			
+			
+			
 		} else { /*Can't be in an appropriate DefaultDateFormat */
 			Return 0;
 		}

@@ -9,7 +9,12 @@ include('includes/session.inc');
 $title = _('Regular Time Entry for Hourly Employees');
 include('includes/header.inc');
 include('includes/SQL_CommonFunctions.inc');
+include('includes/prlFunctions.php');
+$openperiod=OpenPeriod(&$db);
+$mindate=GetPayrollRow($openperiod, &$db,3);
+$maxdate=GetPayrollRow($openperiod, &$db,4);
 ?>
+
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
@@ -43,7 +48,8 @@ if (isset($_POST['RTDate'])){
 	
 	$AllowThisPosting =true; //by default
 	if (!Is_Date($_POST['RTDate'])){
-		prnMsg(_('The date entered was not valid please enter the overtime date'). $_SESSION['DefaultDateFormat'],'warn');
+		prnMsg(_('The date entered was not valid please enter the time date'). $_SESSION['DefaultDateFormat'],'warn');
+		 
 		$_POST['CommitBatch']='Do not do it the date is wrong';
 		$AllowThisPosting =false; //do not allow posting
 		
@@ -71,7 +77,7 @@ if ($_POST['CommitBatch']==_('Submit Timesheet for Approval')){
 				VALUES (
 					'$RTRef',
 					'$RTDesc',
-					'" . FormatDateForSQL($RTItem->RTDate). "',
+					'" . FormatDateForSQL(date("m/d/Y", strtotime($RTItem->RTDate))). "',
 					'" . $_POST['PayrollPeriodID'] . "', 
 					'" . $RTItem->EmployeeID . "',
 					'" . $RTItem->RTHours . "'
@@ -131,13 +137,14 @@ if (!Is_Date($_SESSION['JournalDetail']->JnlDate)){
 }
 
 echo '<TR><TD>'._('Date').":</TD>
-	<TD><INPUT TYPE='text' name='RTDate' class='tcal' maxlength=10 size=11 value='" . $_SESSION['RTDetail']->RTDate . "'></TD></TR>";
+	<TD><input  name='RTDate'  type ='date'   min='".$mindate."' max='".$maxdate."' maxlength=10 size=11
+	 value='" . $_SESSION['RTDetail']->RTDate . "'></TD></TR>";
 echo "<TR> <TD>   <br>  </TD>
 	   <TD></TD></TR>";
 	   echo"<TD>";
 	 echo '<TR><TD>' . _('Pay Period') . ":</TD><TD><SELECT NAME='PayrollPeriodID'>";  
 	   DB_data_seek($result, 0);
-	$sql = 'SELECT payrollid, payrolldesc FROM prlpayrollperiod';
+	$sql = 'SELECT payrollid, payrolldesc FROM prlpayrollperiod  where payclosed=0';
 	$result = DB_query($sql, $db);
 	while ($myrow = DB_fetch_array($result)) {
 		if ($_POST['PayrollPeriodID'] == $myrow['payrollid']){
