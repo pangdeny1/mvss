@@ -1,0 +1,5 @@
+ALTER TABLE  `prlemployeemaster` ADD  `suspfrom` DATE NOT NULL AFTER  `terminatereason` ,
+ADD  `suspto` DATE NOT NULL AFTER  `suspfrom` ;
+
+
+ALTER TABLE  `prlpayrolltrans` ADD  `taxableincome` DECIMAL( 12, 2 ) NOT NULL AFTER  `grosspay` ;

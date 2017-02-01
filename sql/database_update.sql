@@ -1,0 +1,1 @@
+ALTER TABLE  `prlemployeemaster` ADD  `probdate` DATE NOT NULL AFTER  `terminatedate` ;

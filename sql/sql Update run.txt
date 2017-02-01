@@ -1,0 +1,26 @@
+ALTER TABLE  `prlsstable` ADD  `id` INT( 20 ) NOT NULL FIRST ;
+
+ALTER TABLE  `prlsstable` ADD  `pencode` VARCHAR( 20 ) NOT NULL AFTER  `salarycredit` ;
+ALTER TABLE  `prlsstable` ADD  `penname` VARCHAR( 20 ) NOT NULL AFTER  `pencode` ;
+
+
+
+ALTER TABLE  `prlsstable` DROP PRIMARY KEY ,
+ADD PRIMARY KEY (  `id` );
+
+
+ALTER TABLE  `prlsstable` CHANGE  `id`  `id` INT( 10 ) NOT NULL AUTO_INCREMENT;
+
+UPDATE  `miles`.`prlsstable` SET  `pencode` =  'NSSF',
+`penname` =  'NSSF' WHERE  `prlsstable`.`id` =1 LIMIT 1 ;
+
+
+ALTER TABLE  `prlemployeemaster` ADD  `pencode` VARCHAR( 20 ) NOT NULL AFTER  `isPension` ;
+
+ALTER TABLE  `prlpayrolltrans` ADD  `pencode` VARCHAR( 20 ) NOT NULL AFTER  `isPension` ;
+
+ALTER TABLE  `prlemployeemaster` CHANGE  `pencode`  `pencode` VARCHAR( 20 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  'NSSF'
+
+ALTER TABLE  `prlempsssfile` ADD  `pencode` VARCHAR( 20 ) NOT NULL AFTER  `total` ;
+
+ALTER TABLE  `prlothinctable` CHANGE  `othincid`  `othincid` TINYINT( 4 ) NOT NULL AUTO_INCREMENT

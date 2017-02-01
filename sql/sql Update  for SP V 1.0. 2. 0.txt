@@ -1,0 +1,105 @@
+ALTER TABLE  `prlpayrolltrans` ADD  `sssEmployer` DECIMAL( 12, 2 ) NOT NULL AFTER  `netpay` ,
+ADD  `sdl` DECIMAL( 12, 2 ) NOT NULL AFTER  `sssEmployer` ,
+ADD  `wcf` DECIMAL( 12, 2 ) NOT NULL AFTER  `sdl` ;
+
+ALTER TABLE  `prlloanfile` CHANGE  `loanfileid`  `loanfileid` INT( 10 ) NOT NULL AUTO_INCREMENT
+
+CREATE TABLE  `miles`.`prlTittle` (
+`tittleid` INT( 10 ) NOT NULL AUTO_INCREMENT ,
+`title_name` VARCHAR( 30 ) NOT NULL ,
+`tittledesc` VARCHAR( 30 ) NOT NULL ,
+PRIMARY KEY (  `tittleid` )
+) ENGINE = MYISAM
+
+CREATE TABLE  `miles`.`prlterminatereason` (
+`termid` INT( 10 ) NOT NULL AUTO_INCREMENT ,
+`termname` VARCHAR( 40 ) NOT NULL ,
+`termdesc` VARCHAR( 50 ) NOT NULL ,
+PRIMARY KEY (  `termid` )
+) ENGINE = MYISAM
+
+ALTER TABLE  `prlemployeemaster` ADD  `terminatereason` VARCHAR( 20 ) NOT NULL AFTER  `active` ;
+
+INSERT INTO  `miles`.`prlterminatereason` (
+`termid` ,
+`termname` ,
+`termdesc`
+)
+VALUES (
+NULL ,  'End Of Contract ',  ''
+), (
+NULL ,  'Displ',  ''
+);
+
+CREATE TABLE  `miles`.`branches` (
+`branchid` INT( 10 ) NOT NULL AUTO_INCREMENT ,
+`branchname` VARCHAR( 50 ) NOT NULL ,
+`branchlocation` VARCHAR( 60 ) NOT NULL ,
+PRIMARY KEY (  `branchid` )
+) ENGINE = MYISAM
+
+INSERT INTO  `miles`.`branches` (
+`branchid` ,
+`branchname` ,
+`branchlocation`
+)
+VALUES (
+NULL ,  'HQ',  ''
+);
+
+ALTER TABLE  `prlemployeemaster` ADD  `companyid` VARCHAR( 10 ) NOT NULL AFTER  `terminatereason` ,
+ADD  `branchid` VARCHAR( 10 ) NOT NULL AFTER  `companyid` ,
+ADD  `deptid` VARCHAR( 10 ) NOT NULL AFTER  `branchid` ,
+ADD  `jobgroupid` VARCHAR( 10 ) NOT NULL AFTER  `deptid` ,
+ADD  `jobid` VARCHAR( 10 ) NOT NULL AFTER  `jobgroupid` ;
+
+
+
+CREATE TABLE  `miles`.`departments` (
+`deptid` INT NOT NULL AUTO_INCREMENT ,
+`deptname` VARCHAR( 50 ) NOT NULL ,
+`deptdesc` VARCHAR( 100 ) NOT NULL ,
+PRIMARY KEY (  `deptid` )
+) ENGINE = MYISAM
+
+
+CREATE TABLE  `miles`.`jobgroups` (
+`jobgroupid` INT( 10 ) NOT NULL ,
+`jobgroupname` VARCHAR( 30 ) NOT NULL ,
+`jobgroupdesc` VARCHAR( 50 ) NOT NULL
+) ENGINE = MYISAM
+
+
+CREATE TABLE IF NOT EXISTS `jobs` (
+  `jobid` int(30) NOT NULL auto_increment,
+  `jobname` varchar(50) NOT NULL,
+  `jobdesc` varchar(100) NOT NULL,
+  PRIMARY KEY  (`jobid`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+ALTER TABLE  `prlpayrollperiod` ADD  `iscurrent` INT( 2 ) NOT NULL DEFAULT  '1' AFTER  `deductphilhealth` ;
+
+CREATE TABLE IF NOT EXISTS `lvapprover` (
+  `id` int(11) NOT NULL auto_increment,
+  `approverid` varchar(10) NOT NULL,
+  `employeeid` varchar(10) NOT NULL,
+  `leverid` varchar(10) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+
+
+
+
+INSERT INTO  `miles`.`lvapprover` (
+`id` ,
+`approverid` ,
+`employeeid` ,
+`leverid`
+)
+VALUES (
+NULL ,  '1',  '4',  '1'
+), (
+NULL ,  '2',  '8',  '1'
+);
+
