@@ -56,6 +56,22 @@ else
       return $OCStr;
 }
 
+
+function isweekend($date)
+{
+
+$date1 = strtotime($date);
+$date2 = date("l", $date1);
+$date3 = strtolower($date2);
+
+if (($date3 == "saturday") || ($date3 == "sunday")) {
+    return 1;
+} else {
+    return 0;
+}
+
+}
+
 function GetPayTypeDesc($PT)
 {
 		If ($PT==0) {

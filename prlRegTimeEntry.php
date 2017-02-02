@@ -54,6 +54,16 @@ if (isset($_POST['RTDate'])){
 		$AllowThisPosting =false; //do not allow posting
 		
 	}
+	
+	
+	if (isweekend($_POST['RTDate'])){
+		prnMsg(_('The Date you have Selected is weekend'),'warn');
+		 
+		$_POST['CommitBatch']='Do not do it the date is wrong';
+		$AllowThisPosting =false; //do not allow posting
+		
+	}
+	
 }
 $msg='';
 
